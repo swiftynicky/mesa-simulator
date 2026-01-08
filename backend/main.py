@@ -1,6 +1,7 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from simulation import SimulationEngine
+from models import MarketState
 import asyncio
 import json
 
@@ -19,6 +20,22 @@ app.add_middleware(
 sim = SimulationEngine()
 is_running = False
 
+def get_current_state() -> MarketState:
+    """Get current state without advancing the simulation"""
+    ob_state = sim.orderbook.get_state()
+    return MarketState(
+        tick=sim.tick_count,
+        last_price=round(sim.matching_engine.last_price, 2),
+        orderbook=ob_state,
+        recent_trades=[],
+        price_history=sim.price_history[-100:],
+        agents=sim.coordinator.get_agent_counts(),
+        metrics={
+            "volatility": 0.0,
+            "volume": 0
+        }
+    )
+
 @app.get("/")
 async def root():
     return {"status": "MESA Backend Running"}
@@ -31,16 +48,13 @@ async def websocket_endpoint(websocket: WebSocket):
         while True:
             if is_running:
                 state = sim.tick()
-                # Use json.dumps with default=str for datetime objects
                 await websocket.send_text(state.json())
             else:
-                # If not running, still send current state but don't tick
-                # Fetching state from sim without ticking
-                # (Need a method for that, but tick() is fine for now; 
-                # we can just send the last produced state)
-                pass
+                # When paused, still send current state so UI stays updated
+                state = get_current_state()
+                await websocket.send_text(state.json())
             
-            await asyncio.sleep(0.1) # 100ms per simulated step
+            await asyncio.sleep(0.1)  # 100ms update rate
     except WebSocketDisconnect:
         print("Client disconnected")
     except Exception as e:
@@ -68,12 +82,12 @@ async def reset_sim():
 @app.post("/agents/add/{agent_type}")
 async def add_agent(agent_type: str):
     sim.coordinator.add_agent(agent_type)
-    return {"status": "added", "type": agent_type}
+    return {"status": "added", "type": agent_type, "count": sim.coordinator.get_agent_counts()}
 
 @app.post("/agents/remove/{agent_type}")
 async def remove_agent(agent_type: str):
     sim.coordinator.remove_agent(agent_type)
-    return {"status": "removed", "type": agent_type}
+    return {"status": "removed", "type": agent_type, "count": sim.coordinator.get_agent_counts()}
 
 if __name__ == "__main__":
     import uvicorn
