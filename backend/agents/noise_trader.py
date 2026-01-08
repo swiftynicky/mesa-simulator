@@ -4,7 +4,7 @@ import random
 from typing import Optional
 
 class NoiseTraderAgent(BaseAgent):
-    def __init__(self, activity_rate: float = 0.3):
+    def __init__(self, activity_rate: float = 0.5):  # Increased from 0.3
         super().__init__("NoiseTrader")
         self.activity_rate = activity_rate
 
@@ -13,9 +13,9 @@ class NoiseTraderAgent(BaseAgent):
             return None
             
         side = random.choice([OrderSide.BUY, OrderSide.SELL])
-        # Unpredictable price within 0.5% of current price
-        price_offset = random.uniform(-0.005, 0.005)
+        # Wider price range for more volatility (1% instead of 0.5%)
+        price_offset = random.uniform(-0.01, 0.01)
         target_price = current_price * (1 + price_offset)
-        quantity = random.randint(1, 20)
+        quantity = random.randint(5, 30)
         
         return self._create_order(side, target_price, quantity)

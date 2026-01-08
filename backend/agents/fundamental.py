@@ -8,12 +8,15 @@ class FundamentalAgent(BaseAgent):
         self.true_value = true_value
 
     def decide(self, price_history, current_price, orderbook_state) -> Optional[Order]:
-        # Simple fundamental agent: buy if cheap, sell if expensive
+        # Calculate how far price is from true value
         deviation = (current_price - self.true_value) / self.true_value
         
-        if deviation < -0.05:  # Undervalued by 5%
-            return self._create_order(OrderSide.BUY, current_price * 1.001, 15)
-        elif deviation > 0.05:  # Overvalued by 5%
-            return self._create_order(OrderSide.SELL, current_price * 0.999, 15)
+        # MORE AGGRESSIVE: 1% threshold instead of 5%
+        if deviation < -0.01:  # Undervalued by 1%
+            # Buy aggressively - price is below fair value!
+            return self._create_order(OrderSide.BUY, current_price * 1.002, 25)
+        elif deviation > 0.01:  # Overvalued by 1%
+            # Sell aggressively - price is above fair value!
+            return self._create_order(OrderSide.SELL, current_price * 0.998, 25)
             
         return None
