@@ -11,16 +11,20 @@ import { MarketMetrics } from '@/components/MarketMetrics';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, RotateCcw, Activity } from 'lucide-react';
 
+// Use environment variable for API URL, fallback to localhost for development
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const WS_URL = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8000/ws';
+
 export default function Dashboard() {
   const { state, isRunning, setRunning, reset } = useSimulationStore();
   
   // Initialize WebSocket connection
-  useWebSocket('ws://localhost:8000/ws');
+  useWebSocket(WS_URL);
 
   const handeStartStop = async () => {
     const endpoint = isRunning ? 'stop' : 'start';
     try {
-      await fetch(`http://localhost:8000/simulation/${endpoint}`, { method: 'POST' });
+      await fetch(`${API_URL}/simulation/${endpoint}`, { method: 'POST' });
       setRunning(!isRunning);
     } catch (error) {
       console.error("Failed to toggle simulation:", error);
@@ -29,7 +33,7 @@ export default function Dashboard() {
 
   const handleReset = async () => {
     try {
-      await fetch('http://localhost:8000/simulation/reset', { method: 'POST' });
+      await fetch(`${API_URL}/simulation/reset`, { method: 'POST' });
       reset();
     } catch (error) {
       console.error("Failed to reset simulation:", error);
@@ -38,7 +42,7 @@ export default function Dashboard() {
 
   const addAgent = async (type: string) => {
     try {
-      await fetch(`http://localhost:8000/agents/add/${type}`, { method: 'POST' });
+      await fetch(`${API_URL}/agents/add/${type}`, { method: 'POST' });
     } catch (error) {
       console.error("Failed to add agent:", error);
     }
@@ -46,7 +50,7 @@ export default function Dashboard() {
 
   const removeAgent = async (type: string) => {
     try {
-      await fetch(`http://localhost:8000/agents/remove/${type}`, { method: 'POST' });
+      await fetch(`${API_URL}/agents/remove/${type}`, { method: 'POST' });
     } catch (error) {
       console.error("Failed to remove agent:", error);
     }
