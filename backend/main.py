@@ -36,6 +36,7 @@ def get_current_state() -> MarketState:
         }
     )
 
+@app.head("/")
 @app.get("/")
 async def root():
     return {"status": "MESA Backend Running"}
