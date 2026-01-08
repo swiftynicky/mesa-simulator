@@ -15,11 +15,7 @@ class SimulationEngine:
         self.price_history = [100.0]
         self.all_trades: List[Trade] = []
         
-        # Initialize with some default agents
-        for _ in range(5): self.coordinator.add_agent("NoiseTrader")
-        for _ in range(2): self.coordinator.add_agent("TrendFollower")
-        for _ in range(2): self.coordinator.add_agent("MeanReversion")
-        for _ in range(1): self.coordinator.add_agent("Fundamental")
+        # NO DEFAULT AGENTS - user controls everything via UI
 
     def tick(self) -> MarketState:
         self.tick_count += 1
