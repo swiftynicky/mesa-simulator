@@ -11,9 +11,9 @@ import { MarketMetrics } from '@/components/MarketMetrics';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, RotateCcw, Activity } from 'lucide-react';
 
-// Use environment variable for API URL, fallback to localhost for development
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-const WS_URL = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8000/ws';
+// Use environment variable for API URL, fallback to production for deployment
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://mesa-simulator.onrender.com';
+const WS_URL = process.env.NEXT_PUBLIC_WS_URL || 'wss://mesa-simulator.onrender.com/ws';
 
 export default function Dashboard() {
   const { state, isRunning, setRunning, reset } = useSimulationStore();
