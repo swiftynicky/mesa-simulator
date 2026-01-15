@@ -10,7 +10,7 @@
 
 ---
 
-## 🎯 Project Overview
+## Project Overview
 
 MESA simulates a financial exchange where **four types of autonomous AI agents** compete and interact through a real order book and matching engine. The resulting price movements emerge naturally from the collective behavior of these agents—demonstrating key concepts in:
 
@@ -21,7 +21,7 @@ MESA simulates a financial exchange where **four types of autonomous AI agents**
 
 ---
 
-## 🤖 Agent Types
+## Agent Types
 
 | Agent | Strategy | Market Effect |
 |-------|----------|---------------|
@@ -32,40 +32,40 @@ MESA simulates a financial exchange where **four types of autonomous AI agents**
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        FRONTEND (Next.js)                       │
-│   ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐       │
-│   │  Price   │  │  Order   │  │  Agent   │  │  Trade   │       │
-│   │  Chart   │  │  Book    │  │ Controls │  │  Feed    │       │
-│   └────┬─────┘  └────┬─────┘  └────┬─────┘  └────┬─────┘       │
-│        └─────────────┴─────────────┴─────────────┘              │
-│                           │ WebSocket                           │
-└───────────────────────────┼─────────────────────────────────────┘
-                            │
-┌───────────────────────────┼─────────────────────────────────────┐
-│                        BACKEND (FastAPI)                        │
-│   ┌──────────────────────────────────────────────────────┐     │
-│   │              Simulation Engine                        │     │
-│   │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐   │     │
-│   │  │  Matching   │  │   Order     │  │   Agent     │   │     │
-│   │  │   Engine    │◄─┤    Book     │◄─┤ Coordinator │   │     │
-│   │  └─────────────┘  └─────────────┘  └─────────────┘   │     │
-│   └──────────────────────────────────────────────────────┘     │
-└─────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|                        FRONTEND (Next.js)                        |
+|   +----------+  +----------+  +----------+  +----------+         |
+|   |  Price   |  |  Order   |  |  Agent   |  |  Trade   |         |
+|   |  Chart   |  |  Book    |  | Controls |  |  Feed    |         |
+|   +----+-----+  +----+-----+  +----+-----+  +----+-----+         |
+|        +-------------+-------------+-------------+                |
+|                           | WebSocket                             |
++---------------------------+---------------------------------------+
+                            |
++---------------------------+---------------------------------------+
+|                        BACKEND (FastAPI)                          |
+|   +----------------------------------------------------------+   |
+|   |              Simulation Engine                            |   |
+|   |  +-------------+  +-------------+  +-------------+        |   |
+|   |  |  Matching   |  |   Order     |  |   Agent     |        |   |
+|   |  |   Engine    |<-|    Book     |<-| Coordinator |        |   |
+|   |  +-------------+  +-------------+  +-------------+        |   |
+|   +----------------------------------------------------------+   |
++------------------------------------------------------------------+
 ```
 
 ---
 
-## 🚀 Live Demo
+## Live Demo
 
-**🌐 Try it now:** [https://mesa-simulator.vercel.app](https://mesa-simulator.vercel.app)
+**Try it now:** [https://mesa-simulator.vercel.app](https://mesa-simulator.vercel.app)
 
 ---
 
-## 💻 Local Development
+## Local Development
 
 ### Prerequisites
 - Python 3.9+
@@ -96,7 +96,7 @@ START_MESA.bat
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |-------|------------|
@@ -108,7 +108,7 @@ START_MESA.bat
 
 ---
 
-## 📊 Key Features
+## Key Features
 
 - **Real Matching Engine**: Price-time priority order matching (same algorithm used by NYSE/NASDAQ)
 - **Live Order Book**: Visualizes bid/ask depth in real-time
@@ -118,7 +118,7 @@ START_MESA.bat
 
 ---
 
-## 🎓 Academic Context
+## Academic Context
 
 **Project Type:** B.Tech Minor Project  
 **Domain:** Multi-Agent Systems, Computational Finance  
@@ -131,7 +131,7 @@ START_MESA.bat
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 mesa-simulator/
@@ -159,13 +159,13 @@ mesa-simulator/
 
 ---
 
-## 👨‍💻 Author
+## Author
 
-**Benson Nicky**  
+**Benson Muttath Benni**  
 B.Tech Student  
 
 ---
 
-## 📄 License
+## License
 
 MIT License - Feel free to use for educational purposes.
